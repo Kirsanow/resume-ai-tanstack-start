@@ -10,6 +10,7 @@ import { NotFound } from "../components/not-found";
 import { DefaultCatchBoundary } from "../components/dafault-catch-boundary";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import appCss from "../styles/globals.css?url";
 
 export const Route = createRootRoute({
   head: () => ({
@@ -23,6 +24,12 @@ export const Route = createRootRoute({
       },
       {
         title: "TanStack Start Starter",
+      },
+    ],
+    links: [
+      {
+        rel: "stylesheet",
+        href: appCss,
       },
     ],
   }),

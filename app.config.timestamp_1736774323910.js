@@ -1,14 +1,16 @@
 // app.config.ts
 import { defineConfig } from "@tanstack/start/config";
-import tailwindcss from "@tailwindcss/vite";
 import tsConfigPaths from "vite-tsconfig-paths";
-export default defineConfig({
+var app_config_default = defineConfig({
   vite: {
     plugins: [
       tsConfigPaths({
-        projects: ["./tsconfig.json"],
+        projects: ["./tsconfig.json"]
       }),
-      tailwindcss(),
-    ],
-  },
+      tailwindcss()
+    ]
+  }
 });
+export {
+  app_config_default as default
+};
