@@ -7,8 +7,7 @@ export const getResumes = createServerFn({
 }).handler(async () => {
   const supabase = await createSupabaseServerClient();
   const { data, error } = await supabase.from("resumes").select("*");
-  console.log(data, "data");
-  console.log(error, "error");
+
   // if (error) throw new Error("Failed to fetch resumes");
   return data ?? [];
 });
