@@ -26,10 +26,10 @@ function RouteComponent() {
   const queryClient = useQueryClient();
   return (
     <div className="min-h-screen bg-gray-background">
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex items-center justify-between mb-8">
+      <div className="container px-4 py-8 mx-auto">
+        <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="text-4xl font-bold text-foreground mb-2">
+            <h1 className="mb-2 text-4xl font-bold text-foreground">
               My Resumes
             </h1>
             <p className="text-muted-foreground">
@@ -38,7 +38,7 @@ function RouteComponent() {
           </div>
           <Button
             size="lg"
-            className="flex items-center gap-2"
+            className="flex gap-2 items-center"
             onClick={async () => {
               const resume = await createResume();
               queryClient.setQueryData(["resumes"], (old: Resume[] = []) => {
@@ -58,13 +58,13 @@ function RouteComponent() {
         </div>
 
         {resumes.length === 0 ? (
-          <div className="bg-card rounded-xl shadow-xs border border-border p-12">
-            <div className="text-center max-w-md mx-auto">
-              <FileText className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-foreground mb-2">
+          <div className="p-12 rounded-xl border bg-card shadow-xs border-border">
+            <div className="mx-auto max-w-md text-center">
+              <FileText className="mx-auto mb-4 w-12 h-12 text-muted-foreground" />
+              <h3 className="mb-2 text-lg font-semibold text-foreground">
                 No resumes yet
               </h3>
-              <p className="text-muted-foreground mb-6">
+              <p className="mb-6 text-muted-foreground">
                 Create your first resume and start your professional journey
               </p>
               <Button
@@ -89,25 +89,25 @@ function RouteComponent() {
             </div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             {resumes.map((resume: Resume) => (
               <Link
                 key={resume.id}
                 to="/resumes/$resumeId/edit"
                 params={{ resumeId: resume.id }}
-                className="group block"
+                className="block group"
               >
-                <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-all duration-200 hover:border-blue-100">
-                  <div className="flex items-start justify-between mb-4">
+                <div className="p-6 bg-white rounded-xl border border-gray-100 shadow-sm transition-all duration-200 hover:shadow-md hover:border-blue-100">
+                  <div className="flex justify-between items-start mb-4">
                     <FileText className="w-6 h-6 text-blue-500" />
                     <span className="text-sm text-gray-400">
                       Resume #{resume.id}
                     </span>
                   </div>
-                  <h3 className="font-medium text-gray-900 group-hover:text-blue-600 transition-colors">
+                  <h3 className="font-medium text-gray-900 transition-colors group-hover:text-blue-600">
                     View and Edit Resume
                   </h3>
-                  <p className="text-sm text-gray-500 mt-1">
+                  <p className="mt-1 text-sm text-gray-500">
                     Last modified: Recently
                   </p>
                 </div>
