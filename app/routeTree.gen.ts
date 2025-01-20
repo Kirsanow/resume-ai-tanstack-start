@@ -12,9 +12,10 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as LoginImport } from './routes/login'
+import { Route as DashboardImport } from './routes/_dashboard'
 import { Route as IndexImport } from './routes/index'
-import { Route as ResumesIndexImport } from './routes/resumes.index'
 import { Route as ResumesResumeIdIndexImport } from './routes/resumes.$resumeId.index'
+import { Route as DashboardResumesIndexImport } from './routes/_dashboard.resumes.index'
 import { Route as ResumesResumeIdEditImport } from './routes/resumes.$resumeId.edit'
 
 // Create/Update Routes
@@ -25,15 +26,14 @@ const LoginRoute = LoginImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const IndexRoute = IndexImport.update({
-  id: '/',
-  path: '/',
+const DashboardRoute = DashboardImport.update({
+  id: '/_dashboard',
   getParentRoute: () => rootRoute,
 } as any)
 
-const ResumesIndexRoute = ResumesIndexImport.update({
-  id: '/resumes/',
-  path: '/resumes/',
+const IndexRoute = IndexImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -41,6 +41,12 @@ const ResumesResumeIdIndexRoute = ResumesResumeIdIndexImport.update({
   id: '/resumes/$resumeId/',
   path: '/resumes/$resumeId/',
   getParentRoute: () => rootRoute,
+} as any)
+
+const DashboardResumesIndexRoute = DashboardResumesIndexImport.update({
+  id: '/resumes/',
+  path: '/resumes/',
+  getParentRoute: () => DashboardRoute,
 } as any)
 
 const ResumesResumeIdEditRoute = ResumesResumeIdEditImport.update({
@@ -60,18 +66,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
+    '/_dashboard': {
+      id: '/_dashboard'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof DashboardImport
+      parentRoute: typeof rootRoute
+    }
     '/login': {
       id: '/login'
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginImport
-      parentRoute: typeof rootRoute
-    }
-    '/resumes/': {
-      id: '/resumes/'
-      path: '/resumes'
-      fullPath: '/resumes'
-      preLoaderRoute: typeof ResumesIndexImport
       parentRoute: typeof rootRoute
     }
     '/resumes/$resumeId/edit': {
@@ -80,6 +86,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/resumes/$resumeId/edit'
       preLoaderRoute: typeof ResumesResumeIdEditImport
       parentRoute: typeof rootRoute
+    }
+    '/_dashboard/resumes/': {
+      id: '/_dashboard/resumes/'
+      path: '/resumes'
+      fullPath: '/resumes'
+      preLoaderRoute: typeof DashboardResumesIndexImport
+      parentRoute: typeof DashboardImport
     }
     '/resumes/$resumeId/': {
       id: '/resumes/$resumeId/'
@@ -93,28 +106,43 @@ declare module '@tanstack/react-router' {
 
 // Create and export the route tree
 
+interface DashboardRouteChildren {
+  DashboardResumesIndexRoute: typeof DashboardResumesIndexRoute
+}
+
+const DashboardRouteChildren: DashboardRouteChildren = {
+  DashboardResumesIndexRoute: DashboardResumesIndexRoute,
+}
+
+const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
+  DashboardRouteChildren,
+)
+
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '': typeof DashboardRouteWithChildren
   '/login': typeof LoginRoute
-  '/resumes': typeof ResumesIndexRoute
   '/resumes/$resumeId/edit': typeof ResumesResumeIdEditRoute
+  '/resumes': typeof DashboardResumesIndexRoute
   '/resumes/$resumeId': typeof ResumesResumeIdIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '': typeof DashboardRouteWithChildren
   '/login': typeof LoginRoute
-  '/resumes': typeof ResumesIndexRoute
   '/resumes/$resumeId/edit': typeof ResumesResumeIdEditRoute
+  '/resumes': typeof DashboardResumesIndexRoute
   '/resumes/$resumeId': typeof ResumesResumeIdIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/_dashboard': typeof DashboardRouteWithChildren
   '/login': typeof LoginRoute
-  '/resumes/': typeof ResumesIndexRoute
   '/resumes/$resumeId/edit': typeof ResumesResumeIdEditRoute
+  '/_dashboard/resumes/': typeof DashboardResumesIndexRoute
   '/resumes/$resumeId/': typeof ResumesResumeIdIndexRoute
 }
 
@@ -122,39 +150,42 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | ''
     | '/login'
-    | '/resumes'
     | '/resumes/$resumeId/edit'
+    | '/resumes'
     | '/resumes/$resumeId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | ''
     | '/login'
-    | '/resumes'
     | '/resumes/$resumeId/edit'
+    | '/resumes'
     | '/resumes/$resumeId'
   id:
     | '__root__'
     | '/'
+    | '/_dashboard'
     | '/login'
-    | '/resumes/'
     | '/resumes/$resumeId/edit'
+    | '/_dashboard/resumes/'
     | '/resumes/$resumeId/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DashboardRoute: typeof DashboardRouteWithChildren
   LoginRoute: typeof LoginRoute
-  ResumesIndexRoute: typeof ResumesIndexRoute
   ResumesResumeIdEditRoute: typeof ResumesResumeIdEditRoute
   ResumesResumeIdIndexRoute: typeof ResumesResumeIdIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DashboardRoute: DashboardRouteWithChildren,
   LoginRoute: LoginRoute,
-  ResumesIndexRoute: ResumesIndexRoute,
   ResumesResumeIdEditRoute: ResumesResumeIdEditRoute,
   ResumesResumeIdIndexRoute: ResumesResumeIdIndexRoute,
 }
@@ -170,8 +201,8 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/_dashboard",
         "/login",
-        "/resumes/",
         "/resumes/$resumeId/edit",
         "/resumes/$resumeId/"
       ]
@@ -179,14 +210,21 @@ export const routeTree = rootRoute
     "/": {
       "filePath": "index.tsx"
     },
+    "/_dashboard": {
+      "filePath": "_dashboard.tsx",
+      "children": [
+        "/_dashboard/resumes/"
+      ]
+    },
     "/login": {
       "filePath": "login.tsx"
     },
-    "/resumes/": {
-      "filePath": "resumes.index.tsx"
-    },
     "/resumes/$resumeId/edit": {
       "filePath": "resumes.$resumeId.edit.tsx"
+    },
+    "/_dashboard/resumes/": {
+      "filePath": "_dashboard.resumes.index.tsx",
+      "parent": "/_dashboard"
     },
     "/resumes/$resumeId/": {
       "filePath": "resumes.$resumeId.index.tsx"

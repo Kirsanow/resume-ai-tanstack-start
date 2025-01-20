@@ -1,29 +1,29 @@
-import { createFileRoute, Link, useRouter } from "@tanstack/react-router";
-import { createResume, getResumes } from "../server/resumes";
-import { useQueryClient } from "@tanstack/react-query";
-import { Button } from "~/components/ui/button";
-import { Resume } from "~/types";
-import { PlusCircle, FileText } from "lucide-react";
+import { createFileRoute, Link, useRouter } from '@tanstack/react-router'
+import { createResume, getResumes } from '../server/resumes'
+import { useQueryClient } from '@tanstack/react-query'
+import { Button } from '~/components/ui/button'
+import { Resume } from '~/types'
+import { PlusCircle, FileText } from 'lucide-react'
 
 const resumesQueryOptions = {
-  queryKey: ["resumes"] as const,
+  queryKey: ['resumes'] as const,
   queryFn: async (): Promise<Resume[]> => {
-    return await getResumes();
+    return await getResumes()
   },
-};
+}
 
-export const Route = createFileRoute("/resumes/")({
+export const Route = createFileRoute('/_dashboard/resumes/')({
   loader: async ({ context }) => {
-    const data = await context.queryClient.ensureQueryData(resumesQueryOptions);
-    return { resumes: data };
+    const data = await context.queryClient.ensureQueryData(resumesQueryOptions)
+    return { resumes: data }
   },
   component: RouteComponent,
-});
+})
 
 function RouteComponent() {
-  const { resumes } = Route.useLoaderData();
-  const router = useRouter();
-  const queryClient = useQueryClient();
+  const { resumes } = Route.useLoaderData()
+  const router = useRouter()
+  const queryClient = useQueryClient()
   return (
     <div className="min-h-screen bg-gray-background">
       <div className="container px-4 py-8 mx-auto">
@@ -40,16 +40,16 @@ function RouteComponent() {
             size="lg"
             className="flex gap-2 items-center"
             onClick={async () => {
-              const resume = await createResume();
-              queryClient.setQueryData(["resumes"], (old: Resume[] = []) => {
-                return [...old, resume];
-              });
+              const resume = await createResume()
+              queryClient.setQueryData(['resumes'], (old: Resume[] = []) => {
+                return [...old, resume]
+              })
               router.navigate({
-                to: "/resumes/$resumeId/edit",
+                to: '/resumes/$resumeId/edit',
                 params: {
                   resumeId: resume.id,
                 },
-              });
+              })
             }}
           >
             <PlusCircle className="w-5 h-5" />
@@ -69,19 +69,19 @@ function RouteComponent() {
               </p>
               <Button
                 onClick={async () => {
-                  const resume = await createResume();
+                  const resume = await createResume()
                   queryClient.setQueryData(
-                    ["resumes"],
+                    ['resumes'],
                     (old: Resume[] = []) => {
-                      return [...old, resume];
-                    }
-                  );
+                      return [...old, resume]
+                    },
+                  )
                   router.navigate({
-                    to: "/resumes/$resumeId/edit",
+                    to: '/resumes/$resumeId/edit',
                     params: {
                       resumeId: resume.id,
                     },
-                  });
+                  })
                 }}
               >
                 Create Your First Resume
@@ -117,5 +117,5 @@ function RouteComponent() {
         )}
       </div>
     </div>
-  );
+  )
 }
