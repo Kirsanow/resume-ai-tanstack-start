@@ -3,78 +3,73 @@ import { Section } from "./Section";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { Textarea } from "../ui/textarea";
 import { Loader2, Plus, Trash2 } from "lucide-react";
 import { updateResume } from "~/server/resumes";
 import { useParams } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
-interface ExperienceProps {
-  data: ResumeData["experience"];
+interface EducationProps {
+  data: ResumeData["education"];
 }
 
-export function Experience({ data = [] }: ExperienceProps) {
+export function Education({ data = [] }: EducationProps) {
   const { resumeId } = useParams({ from: "/resumes/$resumeId/edit" });
   const queryClient = useQueryClient();
   const [isAdding, setIsAdding] = useState(false);
 
-  const updateExperience = async (newExperience: ResumeData["experience"]) => {
+  const updateEducation = async (newEducation: ResumeData["education"]) => {
     await updateResume({
       data: {
         id: resumeId,
         data: {
-          experience: newExperience,
+          education: newEducation,
         },
       },
     });
     queryClient.invalidateQueries({ queryKey: ["resume", resumeId] });
   };
 
-  const addExperience = async () => {
+  const addEducation = async () => {
     setIsAdding(true);
-    await updateExperience([
+    await updateEducation([
       ...data,
       {
-        company: "",
-        position: "",
-        startDate: "",
-        endDate: "",
-        description: "",
+        institution: "",
+        degree: "",
+        field: "",
+        graduationDate: "",
       },
     ]);
     setIsAdding(false);
   };
 
-  const updateExperienceField = (
+  const updateEducationField = (
     index: number,
-    field: string,
+    field: keyof ResumeData["education"][number],
     value: string
   ) => {
     const newData = [...data];
-    newData[index] = {
-      ...newData[index],
-      [field]: value,
-    };
-    updateExperience(newData);
+    newData[index] = { ...newData[index], [field]: value };
+    updateEducation(newData);
   };
 
-  const removeExperience = (index: number) => {
-    updateExperience(data.filter((_, i) => i !== index));
+  const removeEducation = (index: number) => {
+    updateEducation(data.filter((_, i) => i !== index));
   };
 
   return (
-    <Section title="Experience">
+    <Section title="Education">
       <div className="space-y-6">
-        {data?.map((exp, index) => (
+        {data?.map((edu, index) => (
           <div key={index} className="pt-4 space-y-4 first:pt-0">
-            {index > 0 && <hr className="border-gray-200" />}
+            {index > 0 && <hr className="border-border" />}
             <div className="flex justify-between items-center">
-              <h3 className="text-lg font-medium">Position {index + 1}</h3>
+              <h3 className="text-lg font-medium">Education {index + 1}</h3>
               <Button
                 variant="ghost"
-                size="sm"
-                onClick={() => removeExperience(index)}
+                size="icon"
+                onClick={() => removeEducation(index)}
                 className="text-red-500 hover:text-red-600 hover:bg-red-50"
               >
                 <Trash2 className="w-4 h-4" />
@@ -83,24 +78,24 @@ export function Experience({ data = [] }: ExperienceProps) {
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <Label className="text-muted-foreground">Company</Label>
+                <Label className="text-muted-foreground">Institution</Label>
                 <Input
                   className="mt-1"
-                  type="text"
-                  defaultValue={exp?.company || ""}
+                  placeholder="e.g. Stanford University"
+                  defaultValue={edu?.institution || ""}
                   onChange={(e) =>
-                    updateExperienceField(index, "company", e.target.value)
+                    updateEducationField(index, "institution", e.target.value)
                   }
                 />
               </div>
               <div>
-                <Label className="text-muted-foreground">Position</Label>
+                <Label className="text-muted-foreground">Degree</Label>
                 <Input
                   className="mt-1"
-                  type="text"
-                  defaultValue={exp?.position || ""}
+                  placeholder="e.g. Bachelor of Science"
+                  defaultValue={edu?.degree || ""}
                   onChange={(e) =>
-                    updateExperienceField(index, "position", e.target.value)
+                    updateEducationField(index, "degree", e.target.value)
                   }
                 />
               </div>
@@ -108,39 +103,31 @@ export function Experience({ data = [] }: ExperienceProps) {
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <Label className="text-muted-foreground">Start Date</Label>
+                <Label className="text-muted-foreground">Field of Study</Label>
                 <Input
                   className="mt-1"
-                  type="text"
-                  defaultValue={exp?.startDate || ""}
+                  placeholder="e.g. Computer Science"
+                  defaultValue={edu?.field || ""}
                   onChange={(e) =>
-                    updateExperienceField(index, "startDate", e.target.value)
+                    updateEducationField(index, "field", e.target.value)
                   }
                 />
               </div>
               <div>
-                <Label className="text-muted-foreground">End Date</Label>
+                <Label className="text-muted-foreground">Graduation Date</Label>
                 <Input
                   className="mt-1"
-                  type="text"
-                  defaultValue={exp?.endDate || ""}
+                  placeholder="e.g. May 2023"
+                  defaultValue={edu?.graduationDate || ""}
                   onChange={(e) =>
-                    updateExperienceField(index, "endDate", e.target.value)
+                    updateEducationField(
+                      index,
+                      "graduationDate",
+                      e.target.value
+                    )
                   }
                 />
               </div>
-            </div>
-
-            <div>
-              <Label className="text-muted-foreground">Description</Label>
-              <Textarea
-                className="mt-1"
-                defaultValue={exp?.description || ""}
-                onChange={(e) =>
-                  updateExperienceField(index, "description", e.target.value)
-                }
-                rows={3}
-              />
             </div>
           </div>
         ))}
@@ -148,7 +135,7 @@ export function Experience({ data = [] }: ExperienceProps) {
         <Button
           variant="outline"
           className="flex gap-2 justify-center items-center w-full"
-          onClick={addExperience}
+          onClick={addEducation}
           disabled={isAdding}
         >
           {isAdding ? (
@@ -156,7 +143,7 @@ export function Experience({ data = [] }: ExperienceProps) {
           ) : (
             <Plus className="w-4 h-4" />
           )}
-          Add Experience
+          Add Education
         </Button>
       </div>
     </Section>

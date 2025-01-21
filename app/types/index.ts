@@ -5,12 +5,16 @@ export type { Database } from "./supabase";
 export type Resume = Database["public"]["Tables"]["resumes"]["Row"];
 
 export interface ResumeData {
-  personalInfo: {
-    name: string;
-    email: string;
-    phone: string;
-    location: string;
-  };
+  name: string;
+  email: string;
+  phone: string;
+  location: string;
+
+  professionalSummary: string;
+  links: Array<{
+    label: string;
+    url: string;
+  }>;
   experience: Array<{
     company: string;
     position: string;
@@ -24,5 +28,9 @@ export interface ResumeData {
     field: string;
     graduationDate: string;
   }>;
-  skills: string[];
+  skills: Array<{
+    name: string;
+    level: string;
+    category: string;
+  }>;
 }

@@ -5,8 +5,8 @@ interface SectionProps {
 
 export function Section({ title, children }: SectionProps) {
   return (
-    <div className="bg-white rounded-lg shadow p-6">
-      <h2 className="text-xl font-semibold mb-4">{title}</h2>
+    <div className="p-6 bg-white rounded-lg">
+      <h2 className="mb-4 text-xl font-semibold">{title}</h2>
       {children}
     </div>
   );

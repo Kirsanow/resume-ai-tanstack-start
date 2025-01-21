@@ -1,38 +1,34 @@
 import type { ResumeData } from "~/types";
 import { PersonalInfo } from "./PersonalInfo";
 import { Experience } from "./Experience";
-// import { Education } from "./Education";
-// import { Skills } from "./Skills";
+import { ProfessionalSummary } from "./ProfessionalSummary";
+import { Education } from "./Education";
+import { Skills } from "./Skills";
+import { Links } from "./Links";
 
 interface ResumeEditorProps {
   data: ResumeData;
-  onChange: (data: ResumeData) => void;
 }
 
-export function ResumeEditor({ data, onChange }: ResumeEditorProps) {
+export function ResumeEditor({ data }: ResumeEditorProps) {
   const updateSection = <K extends keyof ResumeData>(
     section: K,
     value: ResumeData[K]
   ) => {
-    onChange({
-      ...data,
-      [section]: value,
-    });
+    console.log(value);
   };
 
   return (
     <div className="space-y-6">
-      <PersonalInfo
-        data={data.personalInfo}
-        onChange={(value) => updateSection("personalInfo", value)}
-      />
+      <PersonalInfo data={data} />
 
-      <Experience
-        data={data.experience}
-        onChange={(value) => updateSection("experience", value)}
-      />
+      <Links data={data.links} />
 
-      {/* <Education
+      <ProfessionalSummary data={data.professionalSummary} />
+
+      <Experience data={data.experience} onChange={() => {}} />
+
+      <Education
         data={data.education}
         onChange={(value) => updateSection("education", value)}
       />
@@ -40,7 +36,7 @@ export function ResumeEditor({ data, onChange }: ResumeEditorProps) {
       <Skills
         data={data.skills}
         onChange={(value) => updateSection("skills", value)}
-      /> */}
+      />
     </div>
   );
 }

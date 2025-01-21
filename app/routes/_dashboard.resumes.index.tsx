@@ -24,8 +24,8 @@ const resumesQueryOptions = {
 
 export const Route = createFileRoute("/_dashboard/resumes/")({
   loader: async ({ context }) => {
-    const data = await context.queryClient.ensureQueryData(resumesQueryOptions);
-    return { resumes: data };
+    context.queryClient.ensureQueryData(resumesQueryOptions);
+    // return { resumes: data };
   },
   component: RouteComponent,
 });
@@ -34,6 +34,7 @@ function RouteComponent() {
   const { data: resumes } = useSuspenseQuery(resumesQueryOptions);
   const router = useRouter();
   const queryClient = useQueryClient();
+
   return (
     <div className="min-h-screen">
       <div className="container px-4 py-8 mx-auto">
@@ -98,7 +99,7 @@ function RouteComponent() {
             </div>
           </Card>
         ) : (
-          <div className="grid grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 gap-6">
             {resumes.map((resume: Resume) => (
               <Card key={resume.id} className="overflow-hidden relative group">
                 <CardContent className="flex p-0">
@@ -118,18 +119,21 @@ function RouteComponent() {
                   <div className="flex-1 p-6">
                     <div className="flex justify-between items-center mb-4">
                       <div>
-                        <h3 className="text-lg font-medium">My first resume</h3>
+                        <h3 className="text-lg font-medium">
+                          {resume?.title || "Untitled resume"}
+                        </h3>
                         <p className="text-sm text-muted-foreground">
                           Updated 13 January, 15:47
                         </p>
                       </div>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="hover:text-primary"
-                      >
-                        <Heart className="w-4 h-4" />
-                      </Button>
+                      <div className="flex gap-2">
+                        <Button variant="ghost" size="icon">
+                          <FileText className="w-4 h-4" />
+                        </Button>
+                        <Button variant="ghost" size="icon">
+                          <Trash2 className="w-4 h-4 text-red-500" />
+                        </Button>
+                      </div>
                     </div>
 
                     <div className="flex gap-1 items-center mb-6">
@@ -152,41 +156,29 @@ function RouteComponent() {
                         variant="outline"
                         className="flex gap-2 justify-start items-center"
                       >
-                        <Download className="w-4 h-4" /> Download PDF
+                        Download PDF
                       </Button>
                       <Button
                         variant="outline"
                         className="flex gap-2 justify-start items-center"
                       >
-                        <Home className="w-4 h-4" /> Export to docx
+                        Export to docx
                       </Button>
                       <Button
                         variant="outline"
                         className="flex gap-2 justify-start items-center"
                       >
-                        <Wifi className="w-4 h-4" /> Wi-Fi
+                        Wi-Fi
                       </Button>
                       <Button
                         variant="outline"
                         className="flex gap-2 justify-start items-center"
                       >
-                        <MoreHorizontal className="w-4 h-4" /> More
+                        More
                       </Button>
                     </div>
                   </div>
                 </CardContent>
-
-                <button
-                  onClick={async () => {
-                    await deleteResume({ data: resume.id });
-                    queryClient.invalidateQueries({
-                      queryKey: ["resumes"],
-                    });
-                  }}
-                  className="absolute top-4 right-4 p-2 bg-white rounded-full shadow opacity-0 transition-opacity group-hover:opacity-100"
-                >
-                  <Trash2 className="w-4 h-4 text-red-500" />
-                </button>
               </Card>
             ))}
           </div>

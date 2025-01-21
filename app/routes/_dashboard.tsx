@@ -29,6 +29,7 @@ function RouteComponent() {
         </Link>
         {headerItems.map((item) => (
           <Link
+            key={item.label}
             className="px-4 py-2 font-semibold rounded-md hover:bg-border-muted text-muted-foreground"
             to={item.to}
             activeProps={{
