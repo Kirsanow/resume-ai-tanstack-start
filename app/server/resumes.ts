@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/start";
 import { createSupabaseServerClient } from "../lib/supabase.server";
-import { redirect } from "@tanstack/react-router";
+import { z } from "zod";
 
 export const getResumes = createServerFn({
   method: "GET",
@@ -28,3 +28,13 @@ export const createResume = createServerFn({
   if (error) throw new Error("Failed to create resume");
   return data;
 });
+
+export const deleteResume = createServerFn({
+  method: "POST",
+})
+  .validator(z.string())
+  .handler(async ({ data }) => {
+    const supabase = await createSupabaseServerClient();
+    const { error } = await supabase.from("resumes").delete().eq("id", data);
+    if (error) throw new Error("Failed to delete resume");
+  });

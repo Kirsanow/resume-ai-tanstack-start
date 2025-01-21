@@ -1,9 +1,11 @@
-import { createFileRoute, useParams } from "@tanstack/react-router";
+import { createFileRoute, Link, useParams } from "@tanstack/react-router";
+import { ArrowLeft } from "lucide-react";
 import { useState } from "react";
 import { PreviewControls } from "~/components/PreviewControls";
 import { ResumeEditor } from "~/components/ResumeEditor";
 import { ResumePreview } from "~/components/ResumePreview";
 import { TemplateSelector } from "~/components/TemplateSelector";
+import { Button } from "~/components/ui/button";
 import { useTemplatesStore } from "~/store/templates";
 import type { ResumeData } from "~/types";
 
@@ -39,13 +41,19 @@ function EditResumePage() {
       {/* Main Layout - Split Screen */}
       <div className="flex h-full">
         {/* Left Panel - Resume Editor */}
-        <div className="w-1/2 p-6 overflow-y-auto">
+        <div className="overflow-y-auto p-6 w-1/2 bg-white">
+          <Link to="/resumes">
+            <Button variant="outline" className="mb-4">
+              <ArrowLeft className="w-4 h-4" />
+              Go back
+            </Button>
+          </Link>
           <div className="mb-6">
-            <h1 className="text-2xl font-bold text-gray-900">
-              Edit Resume #{resumeId}
+            <h1 className="text-2xl font-bold text-center text-foreground">
+              Untitled resume
             </h1>
-            <p className="mt-2 text-sm text-gray-600">
-              Fill in your details below and see them update in real-time.
+            <p className="text-sm text-center text-muted-foreground/70">
+              Last edited on {new Date().toLocaleDateString()}
             </p>
           </div>
 
@@ -53,16 +61,16 @@ function EditResumePage() {
         </div>
 
         {/* Right Panel - Preview */}
-        <div className="w-1/2 bg-gray-100">
-          <div className="p-6 h-full flex flex-col">
+        <div className="w-1/2">
+          <div className="flex flex-col p-6 h-full">
             {/* Preview Controls */}
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex justify-between items-center mb-4">
               <TemplateSelector />
               <PreviewControls />
             </div>
 
             {/* Resume Preview */}
-            <div className="flex-1 bg-white rounded-lg shadow-lg overflow-hidden">
+            <div className="overflow-hidden flex-1 bg-white rounded-lg shadow-lg">
               <ResumePreview data={resumeData} template={selectedTemplate} />
             </div>
           </div>

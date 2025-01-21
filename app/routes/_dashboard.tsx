@@ -20,12 +20,12 @@ function RouteComponent() {
   ];
   return (
     <>
-      <header className="flex sticky top-0 z-10 gap-2 px-8 py-4 border-b border-border-muted bg-background">
+      <header className="flex sticky top-0 z-10 gap-2 items-center px-[100px] py-4 border-b border-border-muted bg-background">
         <Link
-          className="px-4 py-2 font-semibold rounded-md hover:bg-border-muted text-muted-foreground"
+          className="mr-4 text-xl font-bold tracking-tight text-primary"
           to="/"
         >
-          ResumeAI
+          Resumix
         </Link>
         {headerItems.map((item) => (
           <Link
