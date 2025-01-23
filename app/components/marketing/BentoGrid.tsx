@@ -94,19 +94,13 @@ export default function BentoGrid() {
                 </p>
               </div>
               <div className="relative min-h-[30rem] w-full grow">
-                <div className="overflow-hidden absolute right-0 bottom-0 top-10 left-10 bg-gray-900 rounded-tl-xl shadow-2xl">
-                  <div className="flex ring-1 bg-gray-800/40 ring-white/5">
-                    <div className="flex -mb-px font-medium text-gray-400 text-sm/6">
-                      <div className="px-4 py-2 text-white border-r border-b border-r-white/10 border-b-white/20 bg-white/5">
-                        NotificationSetting.jsx
-                      </div>
-                      <div className="px-4 py-2 border-r border-gray-600/10">
-                        App.jsx
-                      </div>
-                    </div>
-                  </div>
-                  <div className="px-6 pt-6 pb-14">
-                    {/* Your code example */}
+                <div className="@container relative min-h-[30rem] w-full grow max-lg:mx-auto max-lg:max-w-sm">
+                  <div className="">
+                    <img
+                      className="object-cover object-top size-full"
+                      src="/bento-feature-4.svg"
+                      alt=""
+                    />
                   </div>
                 </div>
               </div>

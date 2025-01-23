@@ -36,7 +36,7 @@ export default function Features() {
   return (
     <div className="px-6 mx-auto max-w-7xl lg:px-8">
       <div className="mx-auto max-w-2xl lg:text-center">
-        <h2 className="text-base font-semibold leading-7 text-indigo-600">
+        <h2 className="text-base font-semibold leading-7 text-blue-600">
           Maximize Your Potential
         </h2>
         <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
@@ -53,7 +53,7 @@ export default function Features() {
           {features.map((feature) => (
             <div key={feature.name} className="relative pl-16">
               <dt className="text-base font-semibold leading-7 text-gray-900">
-                <div className="flex absolute top-0 left-0 justify-center items-center w-10 h-10 bg-indigo-600 rounded-lg">
+                <div className="flex absolute top-0 left-0 justify-center items-center w-10 h-10 bg-blue-600 rounded-lg">
                   <feature.icon
                     aria-hidden="true"
                     className="w-6 h-6 text-white"

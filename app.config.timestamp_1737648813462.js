@@ -2,18 +2,20 @@
 import { defineConfig } from "@tanstack/start/config";
 import tailwindcss from "@tailwindcss/vite";
 import tsConfigPaths from "vite-tsconfig-paths";
-import { cloudflare } from "unenv";
-export default defineConfig({
+var app_config_default = defineConfig({
   server: {
     preset: "cloudflare-pages",
-    unenv: cloudflare,
+    unenv: cloudflare
   },
   vite: {
     plugins: [
       tsConfigPaths({
-        projects: ["./tsconfig.json"],
+        projects: ["./tsconfig.json"]
       }),
-      tailwindcss(),
-    ],
-  },
+      tailwindcss()
+    ]
+  }
 });
+export {
+  app_config_default as default
+};

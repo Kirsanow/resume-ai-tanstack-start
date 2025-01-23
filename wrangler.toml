@@ -1,0 +1,15 @@
+# wrangler.toml
+name = "resumix"
+pages_build_output_dir = "./dist"
+compatibility_flags = ["nodejs_compat"]
+compatibility_date = "2024-11-13"
+
+[vars]
+VITE_APP_NAME = "Resumix"
+VITE_SUPABASE_URL="https://cmeeuugekjkfgsbnjbkc.supabase.co"
+VITE_SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNtZWV1dWdla2prZmdzYm5qYmtjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY3MDQxNTgsImV4cCI6MjA1MjI4MDE1OH0.SBUpb-yEZ6yDCFUKd0t-TfDPL_pVpV5e1EEMyrY891o"
+
+[env.production.vars]
+VITE_APP_NAME = "Resumix"
+VITE_SUPABASE_URL="https://cmeeuugekjkfgsbnjbkc.supabase.co"
+VITE_SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNtZWV1dWdla2prZmdzYm5qYmtjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY3MDQxNTgsImV4cCI6MjA1MjI4MDE1OH0.SBUpb-yEZ6yDCFUKd0t-TfDPL_pVpV5e1EEMyrY891o"
