@@ -1,5 +1,8 @@
 // app/routes/index.tsx
 import { createFileRoute, Link } from "@tanstack/react-router";
+import Hero from "~/components/marketing/Hero";
+import LogoClouds from "~/components/marketing/LogoClouds";
+import WithLargeScreenshot from "~/components/marketing/WithLargeScreenshot";
 import { Button } from "~/components/ui/button";
 4;
 export const Route = createFileRoute("/")({
@@ -8,11 +11,8 @@ export const Route = createFileRoute("/")({
 
 function Home() {
   return (
-    <div>
-      <h1>Home</h1>
-      <Link to="/login">
-        <Button>Login</Button>
-      </Link>
-    </div>
+    <main>
+      <WithLargeScreenshot />
+    </main>
   );
 }

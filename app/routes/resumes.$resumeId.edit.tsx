@@ -177,9 +177,9 @@ function EditResumePage() {
         <div className="w-1/2">
           <div className="flex flex-col p-6 h-full">
             {/* Preview Controls */}
-            <div className="flex justify-between items-center mb-4">
+            {/* <div className="flex justify-between items-center mb-4">
               <PreviewControls />
-            </div>
+            </div> */}
 
             {/* Resume Preview */}
             <div className="overflow-hidden flex-1 bg-white rounded-lg shadow-lg">
