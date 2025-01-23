@@ -5,7 +5,7 @@ import {
   createRootRoute,
 } from "@tanstack/react-router";
 import { Meta, Scripts } from "@tanstack/start";
-import type { ReactNode } from "react";
+import { Suspense, type ReactNode } from "react";
 import { NotFound } from "../components/not-found";
 import { DefaultCatchBoundary } from "../components/dafault-catch-boundary";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
@@ -58,12 +58,21 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
       <head>
         <Meta />
       </head>
-      <body>
+      <body className="h-full">
         {children}
         <ScrollRestoration />
-        <TanStackRouterDevtools position="bottom-right" />
-        <ReactQueryDevtools buttonPosition="bottom-left" />
+        {process.env.NODE_ENV === "development" && (
+          <>
+            <Suspense fallback={null}>
+              <ReactQueryDevtools buttonPosition="bottom-left" />
+            </Suspense>
+            <Suspense fallback={null}>
+              <TanStackRouterDevtools position="bottom-right" />
+            </Suspense>
+          </>
+        )}
         <Scripts />
+        {/* <Toaster /> */}
       </body>
     </html>
   );
