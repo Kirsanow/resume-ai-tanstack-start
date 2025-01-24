@@ -1,5 +1,6 @@
 // app/routes/index.tsx
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { Suspense } from "react";
 import Hero from "~/components/marketing/Hero";
 import LogoClouds from "~/components/marketing/LogoClouds";
 import WithLargeScreenshot from "~/components/marketing/WithLargeScreenshot";
@@ -11,8 +12,10 @@ export const Route = createFileRoute("/")({
 
 function Home() {
   return (
-    <main>
-      <WithLargeScreenshot />
-    </main>
+    <Suspense fallback={null}>
+      <main>
+        <WithLargeScreenshot />
+      </main>
+    </Suspense>
   );
 }
