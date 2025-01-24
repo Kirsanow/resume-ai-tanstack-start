@@ -5,10 +5,9 @@ import {
   createRootRoute,
 } from "@tanstack/react-router";
 import { Meta, Scripts } from "@tanstack/start";
-import { Suspense, type ReactNode } from "react";
+import { lazy, Suspense, type ReactNode } from "react";
 import { NotFound } from "../components/not-found";
 import { DefaultCatchBoundary } from "../components/dafault-catch-boundary";
-import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import appCss from "../styles/globals.css?url";
 
@@ -33,6 +32,7 @@ export const Route = createRootRoute({
       },
     ],
   }),
+  ssr: true,
   component: RootComponent,
   notFoundComponent: () => <NotFound />,
   errorComponent: (props) => {
@@ -51,6 +51,14 @@ function RootComponent() {
     </RootDocument>
   );
 }
+const TanStackRouterDevtools =
+  process.env.NODE_ENV === "production"
+    ? () => null
+    : lazy(() =>
+        import("@tanstack/router-devtools").then((res) => ({
+          default: res.TanStackRouterDevtools,
+        }))
+      );
 
 function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
   return (
